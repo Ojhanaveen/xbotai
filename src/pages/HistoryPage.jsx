@@ -6,7 +6,7 @@ export default function HistoryPage() {
 
   return (
     <div className="chat-page">
-      <header className="topbar" style={{ display: "flex", alignItems: "center" }}>
+      <header className="topbar">
         <h1>Bot AI</h1>
         <div style={{ marginLeft: "auto" }}>
           <button

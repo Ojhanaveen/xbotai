@@ -25,7 +25,9 @@ export default function ChatPage() {
       : "Sorry, Did not understand your query!";
 
     const aiMsg = { sender: "ai", text: aiResponse };
-    setTimeout(() => setCurrentChat((prev) => [...prev, aiMsg]), 800);
+    setTimeout(() => {
+      setCurrentChat((prev) => [...prev, aiMsg]);
+    }, 800);
 
     setInput("");
   };

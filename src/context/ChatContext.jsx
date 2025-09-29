@@ -26,8 +26,6 @@ export const ChatProvider = ({ children }) => {
   }, [currentChat]);
 
   const saveConversation = (feedback) => {
-    if (currentChat.length === 0) return; // Avoid saving empty chats
-
     const chatWithFeedback = {
       id: Date.now(),
       chat: [...currentChat],
