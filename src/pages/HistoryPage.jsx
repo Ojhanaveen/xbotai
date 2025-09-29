@@ -1,8 +1,15 @@
 import { useContext } from "react";
+import { useNavigate } from "react-router-dom";
 import { ChatContext } from "../context/ChatContext";
 
 export default function HistoryPage() {
   const { savedChats, newChat } = useContext(ChatContext);
+  const navigate = useNavigate();
+
+  const handleNewChat = () => {
+    newChat();       // clear current chat
+    navigate("/");   // go back to main chat page
+  };
 
   return (
     <div className="chat-page">
@@ -11,7 +18,7 @@ export default function HistoryPage() {
         <div style={{ marginLeft: "auto" }}>
           <button
             type="button"
-            onClick={newChat}
+            onClick={handleNewChat}
             style={{
               padding: "0.4rem 0.8rem",
               borderRadius: "6px",
@@ -33,9 +40,7 @@ export default function HistoryPage() {
           <div key={item.id} className="chat-window">
             {item.chat.map((msg, idx) => (
               <div key={idx} className={`message ${msg.sender}`}>
-                {msg.sender === "ai" && (
-                  <span className="sender-name">Soul AI:</span>
-                )}
+                {msg.sender === "ai" && <span className="sender-name">Soul AI:</span>}
                 <p>{msg.text}</p>
               </div>
             ))}
@@ -46,27 +51,15 @@ export default function HistoryPage() {
                   {[1, 2, 3, 4, 5].map((star) => (
                     <span
                       key={star}
-                      className={
-                        star <= item.feedback.rating ? "star selected" : "star"
-                      }
+                      className={star <= item.feedback.rating ? "star selected" : "star"}
                     >
                       ⭐
                     </span>
                   ))}
                 </div>
                 <div className="reaction">
-                  <button
-                    className={item.feedback.reaction === "like" ? "active" : ""}
-                  >
-                    👍
-                  </button>
-                  <button
-                    className={
-                      item.feedback.reaction === "dislike" ? "active" : ""
-                    }
-                  >
-                    👎
-                  </button>
+                  <button className={item.feedback.reaction === "like" ? "active" : ""}>👍</button>
+                  <button className={item.feedback.reaction === "dislike" ? "active" : ""}>👎</button>
                 </div>
               </div>
             )}
