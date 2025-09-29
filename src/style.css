@@ -1,0 +1,206 @@
+/* ===== Global Styles ===== */
+body, html {
+  margin: 0;
+  padding: 0;
+  font-family: 'Roboto', sans-serif;
+  background-color: #f5f5f5;
+  box-sizing: border-box;
+}
+
+/* ===== Chat Page ===== */
+.chat-page {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  max-width: 600px;
+  margin: auto;
+  background-color: #fff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
+  overflow: hidden;
+}
+
+/* Chat window */
+.chat-window {
+  flex: 1;
+  padding: 16px;
+  overflow-y: auto;
+  background-color: #f9f9f9;
+}
+
+/* Input bar */
+.input-bar {
+  display: flex;
+  padding: 10px;
+  background-color: #fff;
+  border-top: 1px solid #ddd;
+}
+
+.input-bar input {
+  flex: 1;
+  padding: 10px 12px;
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  font-size: 1rem;
+}
+
+.input-bar button {
+  margin-left: 8px;
+  padding: 10px 16px;
+  background-color: #4f46e5;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.input-bar button:hover {
+  background-color: #4338ca;
+}
+
+/* Chat actions */
+.chat-actions {
+  padding: 10px;
+  border-top: 1px solid #ddd;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.chat-actions button {
+  padding: 8px 16px;
+  border: none;
+  background-color: #ef4444;
+  color: #fff;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: background 0.2s ease;
+}
+
+.chat-actions button:hover {
+  background-color: #dc2626;
+}
+
+/* ===== Rating Modal ===== */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0,0,0,0.4);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1000;
+}
+
+.modal-content {
+  background-color: #fff;
+  padding: 24px;
+  border-radius: 12px;
+  width: 90%;
+  max-width: 400px;
+  text-align: center;
+  position: relative;
+}
+
+/* Stars */
+.stars {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  margin: 16px 0;
+}
+
+.stars .star {
+  font-size: 2.2rem;
+  cursor: pointer;
+  color: #ccc;
+  transition: color 0.2s ease;
+  user-select: none;
+}
+
+.stars .star.selected,
+.stars .star:hover,
+.stars .star:hover ~ .star {
+  color: #ffcc00;
+}
+
+/* Reaction buttons */
+.reaction {
+  display: flex;
+  justify-content: center;
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.reaction button {
+  font-size: 1.5rem;
+  cursor: pointer;
+  border: none;
+  background: none;
+  transition: transform 0.2s ease;
+}
+
+.reaction button.active,
+.reaction button:hover {
+  transform: scale(1.2);
+}
+
+/* Comment box */
+textarea {
+  width: 100%;
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid #ccc;
+  resize: none;
+  font-family: inherit;
+  font-size: 1rem;
+  margin-bottom: 16px;
+}
+
+/* Modal actions */
+.modal-actions {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+}
+
+.modal-actions button {
+  padding: 8px 16px;
+  border-radius: 6px;
+  border: none;
+  cursor: pointer;
+  font-weight: 500;
+}
+
+.modal-actions button:first-child {
+  background-color: #4f46e5;
+  color: #fff;
+}
+
+.modal-actions button:first-child:hover {
+  background-color: #4338ca;
+}
+
+.modal-actions button:last-child {
+  background-color: #ef4444;
+  color: #fff;
+}
+
+.modal-actions button:last-child:hover {
+  background-color: #dc2626;
+}
+
+/* ===== Responsive ===== */
+@media (max-width: 768px) {
+  .chat-page {
+    border-radius: 0;
+    height: 100vh;
+  }
+
+  .modal-content {
+    width: 95%;
+  }
+}
