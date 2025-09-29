@@ -12,7 +12,7 @@ export const ChatProvider = ({ children }) => {
     setSavedChats(saved);
 
     const ongoing = JSON.parse(localStorage.getItem("currentChat")) || [];
-    setCurrentChat(ongoing);
+    setCurrentChat(ongoing); // only ongoing chat, do not load last saved chat
   }, []);
 
   // Persist savedChats to localStorage whenever it changes
@@ -26,6 +26,7 @@ export const ChatProvider = ({ children }) => {
   }, [currentChat]);
 
   const saveConversation = (feedback) => {
+    if (currentChat.length === 0) return; // avoid saving empty chats
     const chatWithFeedback = {
       id: Date.now(),
       chat: [...currentChat],

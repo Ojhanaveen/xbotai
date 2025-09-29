@@ -6,11 +6,6 @@ export default function HistoryPage() {
   const { savedChats, newChat } = useContext(ChatContext);
   const navigate = useNavigate();
 
-  const handleNewChat = () => {
-    newChat();       // clear current chat
-    navigate("/");   // go back to main chat page
-  };
-
   return (
     <div className="chat-page">
       <header className="topbar">
@@ -18,7 +13,10 @@ export default function HistoryPage() {
         <div style={{ marginLeft: "auto" }}>
           <button
             type="button"
-            onClick={handleNewChat}
+            onClick={() => {
+              newChat();
+              navigate("/"); // go back to Chat page
+            }}
             style={{
               padding: "0.4rem 0.8rem",
               borderRadius: "6px",
@@ -58,8 +56,12 @@ export default function HistoryPage() {
                   ))}
                 </div>
                 <div className="reaction">
-                  <button className={item.feedback.reaction === "like" ? "active" : ""}>👍</button>
-                  <button className={item.feedback.reaction === "dislike" ? "active" : ""}>👎</button>
+                  <button className={item.feedback.reaction === "like" ? "active" : ""}>
+                    👍
+                  </button>
+                  <button className={item.feedback.reaction === "dislike" ? "active" : ""}>
+                    👎
+                  </button>
                 </div>
               </div>
             )}
