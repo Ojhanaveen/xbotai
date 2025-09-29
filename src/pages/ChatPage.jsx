@@ -1,5 +1,4 @@
 import { useContext, useState, useEffect, useRef } from "react";
-import { useNavigate } from "react-router-dom";
 import { ChatContext } from "../context/ChatContext";
 import Message from "../components/Message";
 import RatingModal from "../components/RatingModal";
@@ -10,7 +9,6 @@ export default function ChatPage() {
   const [input, setInput] = useState("");
   const [showModal, setShowModal] = useState(false);
   const chatEndRef = useRef(null);
-  const navigate = useNavigate();
 
   const handleSend = () => {
     if (!input.trim()) return;
@@ -27,9 +25,7 @@ export default function ChatPage() {
       : "Sorry, Did not understand your query!";
 
     const aiMsg = { sender: "ai", text: aiResponse };
-    setTimeout(() => {
-      setCurrentChat((prev) => [...prev, aiMsg]);
-    }, 800);
+    setTimeout(() => setCurrentChat((prev) => [...prev, aiMsg]), 800);
 
     setInput("");
   };
@@ -75,13 +71,7 @@ export default function ChatPage() {
         <button type="button" onClick={handleEndChat}>
           Save & End Chat
         </button>
-        <button
-          type="button"
-          onClick={() => {
-            newChat();
-            navigate("/"); // reload page to start fresh chat
-          }}
-        >
+        <button type="button" onClick={newChat}>
           New Chat
         </button>
       </div>

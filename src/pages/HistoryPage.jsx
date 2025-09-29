@@ -1,22 +1,17 @@
 import { useContext } from "react";
-import { useNavigate } from "react-router-dom";
 import { ChatContext } from "../context/ChatContext";
 
 export default function HistoryPage() {
   const { savedChats, newChat } = useContext(ChatContext);
-  const navigate = useNavigate();
 
   return (
     <div className="chat-page">
-      <header className="topbar">
+      <header className="topbar" style={{ display: "flex", alignItems: "center" }}>
         <h1>Bot AI</h1>
         <div style={{ marginLeft: "auto" }}>
           <button
             type="button"
-            onClick={() => {
-              newChat();
-              navigate("/"); // go back to Chat page
-            }}
+            onClick={newChat}
             style={{
               padding: "0.4rem 0.8rem",
               borderRadius: "6px",
