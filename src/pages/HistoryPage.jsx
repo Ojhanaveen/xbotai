@@ -1,58 +1,77 @@
-import { useContext, useState } from "react";
+import { useContext } from "react";
 import { ChatContext } from "../context/ChatContext";
 
 export default function HistoryPage() {
-  const { conversations } = useContext(ChatContext);
-  const [selectedIndex, setSelectedIndex] = useState(null);
+  const { savedChats, newChat } = useContext(ChatContext);
 
   return (
-    <div className="history-page">
-      <h2>Past Conversations</h2>
-
-      <div className="history-list">
-        {conversations.length === 0 ? (
-          <p>No saved conversations yet.</p>
-        ) : (
-          conversations.map((conv, index) => (
-            <div key={index} className="conversation-summary">
-              <button onClick={() => setSelectedIndex(index)}>
-                Conversation {index + 1}
-              </button>
-            </div>
-          ))
-        )}
-      </div>
-
-      {/* Show selected conversation */}
-      {selectedIndex !== null && (
-        <div className="conversation-detail">
-          <h3>Conversation {selectedIndex + 1}</h3>
-          <div className="chat-messages">
-            {conversations[selectedIndex].chat.map((msg, i) => (
-              <p key={i} className={msg.sender}>
-                <strong>{msg.sender}:</strong> {msg.text}
-              </p>
-            ))}
-          </div>
-
-          {conversations[selectedIndex].feedback && (
-            <div className="conversation-feedback">
-              <h4>Feedback</h4>
-              <p>
-                <strong>Rating:</strong>{" "}
-                {"⭐".repeat(conversations[selectedIndex].feedback.rating)}
-              </p>
-              <p>
-                <strong>Comment:</strong>{" "}
-                {conversations[selectedIndex].feedback.comment || "No comment"}
-              </p>
-              <p>
-                <strong>Reaction:</strong>{" "}
-                {conversations[selectedIndex].feedback.reaction || "None"}
-              </p>
-            </div>
-          )}
+    <div className="chat-page">
+      <header className="topbar">
+        <h1>Bot AI</h1>
+        <div style={{ marginLeft: "auto" }}>
+          <button
+            type="button"
+            onClick={newChat}
+            style={{
+              padding: "0.4rem 0.8rem",
+              borderRadius: "6px",
+              border: "none",
+              backgroundColor: "#1e88e5",
+              color: "#fff",
+              cursor: "pointer",
+            }}
+          >
+            New Chat
+          </button>
         </div>
+      </header>
+
+      {savedChats.length === 0 ? (
+        <p style={{ padding: "1rem" }}>No saved chats yet.</p>
+      ) : (
+        savedChats.map((item) => (
+          <div key={item.id} className="chat-window">
+            {item.chat.map((msg, idx) => (
+              <div key={idx} className={`message ${msg.sender}`}>
+                {msg.sender === "ai" && (
+                  <span className="sender-name">Soul AI:</span>
+                )}
+                <p>{msg.text}</p>
+              </div>
+            ))}
+
+            {item.feedback && (
+              <div className="feedback-buttons">
+                <div className="stars">
+                  {[1, 2, 3, 4, 5].map((star) => (
+                    <span
+                      key={star}
+                      className={
+                        star <= item.feedback.rating ? "star selected" : "star"
+                      }
+                    >
+                      ⭐
+                    </span>
+                  ))}
+                </div>
+                <div className="reaction">
+                  <button
+                    className={item.feedback.reaction === "like" ? "active" : ""}
+                  >
+                    👍
+                  </button>
+                  <button
+                    className={
+                      item.feedback.reaction === "dislike" ? "active" : ""
+                    }
+                  >
+                    👎
+                  </button>
+                </div>
+              </div>
+            )}
+          </div>
+        ))
       )}
     </div>
   );

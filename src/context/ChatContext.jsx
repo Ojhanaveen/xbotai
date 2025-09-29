@@ -2,44 +2,54 @@ import { createContext, useState, useEffect } from "react";
 
 export const ChatContext = createContext();
 
-export function ChatProvider({ children }) {
-  const [currentChat, setCurrentChat] = useState(() => {
-    return JSON.parse(localStorage.getItem("currentChat")) || [];
-  });
-  const [conversations, setConversations] = useState(() => {
-    return JSON.parse(localStorage.getItem("conversations")) || [];
-  });
+export const ChatProvider = ({ children }) => {
+  const [currentChat, setCurrentChat] = useState([]);
+  const [savedChats, setSavedChats] = useState([]);
 
-  // Save conversation + feedback
-  const saveConversation = (feedback) => {
-    if (!currentChat || currentChat.length === 0) return;
+  // Load saved chats and ongoing chat from localStorage on mount
+  useEffect(() => {
+    const saved = JSON.parse(localStorage.getItem("savedChats")) || [];
+    setSavedChats(saved);
 
-    const newConversation = {
-      chat: currentChat,
-      feedback,
-      timestamp: new Date().toISOString(),
-    };
+    const ongoing = JSON.parse(localStorage.getItem("currentChat")) || [];
+    setCurrentChat(ongoing);
+  }, []);
 
-    const updatedConversations = [...conversations, newConversation];
+  // Persist savedChats to localStorage whenever it changes
+  useEffect(() => {
+    localStorage.setItem("savedChats", JSON.stringify(savedChats));
+  }, [savedChats]);
 
-    setConversations(updatedConversations);
-    setCurrentChat([]);
-
-    // persist in localStorage
-    localStorage.setItem("conversations", JSON.stringify(updatedConversations));
-    localStorage.setItem("currentChat", JSON.stringify([]));
-  };
-
-  // Save current chat automatically to localStorage
+  // Persist currentChat to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("currentChat", JSON.stringify(currentChat));
   }, [currentChat]);
 
+  const saveConversation = (feedback) => {
+    const chatWithFeedback = {
+      id: Date.now(),
+      chat: [...currentChat],
+      feedback,
+    };
+    setSavedChats((prev) => [...prev, chatWithFeedback]);
+    setCurrentChat([]); // clear ongoing chat after saving
+  };
+
+  const newChat = () => {
+    setCurrentChat([]); // clear ongoing chat
+  };
+
   return (
     <ChatContext.Provider
-      value={{ currentChat, setCurrentChat, conversations, saveConversation }}
+      value={{
+        currentChat,
+        setCurrentChat,
+        savedChats,
+        saveConversation,
+        newChat,
+      }}
     >
       {children}
     </ChatContext.Provider>
   );
-}
+};

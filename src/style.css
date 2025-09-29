@@ -1,206 +1,302 @@
-/* ===== Global Styles ===== */
-body, html {
+/* Reset default margins and paddings */
+* {
   margin: 0;
   padding: 0;
-  font-family: 'Roboto', sans-serif;
-  background-color: #f5f5f5;
   box-sizing: border-box;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
 }
 
-/* ===== Chat Page ===== */
+/* Body */
+body {
+  background-color: #f4f6f8;
+  color: #333;
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+/* Topbar */
+.topbar {
+  background-color: #1e88e5;
+  color: #fff;
+  padding: 1rem 2rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.topbar h1 {
+  font-size: 1.5rem;
+}
+
+/* Chat Page */
 .chat-page {
   display: flex;
   flex-direction: column;
-  height: 100vh;
-  max-width: 600px;
-  margin: auto;
-  background-color: #fff;
-  border-radius: 12px;
-  box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-  overflow: hidden;
+  height: calc(100vh - 70px);
+  max-width: 800px;
+  margin: 0 auto;
+  padding: 1rem;
 }
 
-/* Chat window */
+/* Chat Window */
 .chat-window {
   flex: 1;
-  padding: 16px;
   overflow-y: auto;
-  background-color: #f9f9f9;
+  padding: 1rem;
+  border: 1px solid #ddd;
+  border-radius: 8px;
+  background-color: #fff;
+  margin-bottom: 1rem;
 }
 
-/* Input bar */
+/* Messages */
+.message {
+  margin-bottom: 0.8rem;
+  padding: 0.6rem 0.8rem;
+  border-radius: 8px;
+  max-width: 80%;
+  word-wrap: break-word;
+  position: relative;
+}
+
+.message.user {
+  background-color: #1e88e5;
+  color: #fff;
+  align-self: flex-end;
+}
+
+.message.ai {
+  background-color: #e0e0e0;
+  color: #333;
+  align-self: flex-start;
+}
+
+/* Input Bar */
 .input-bar {
   display: flex;
-  padding: 10px;
-  background-color: #fff;
-  border-top: 1px solid #ddd;
+  gap: 0.5rem;
 }
 
 .input-bar input {
   flex: 1;
-  padding: 10px 12px;
-  border: 1px solid #ccc;
+  padding: 0.6rem 0.8rem;
   border-radius: 6px;
+  border: 1px solid #ccc;
   font-size: 1rem;
 }
 
+.input-bar input:focus {
+  outline: none;
+  border-color: #1e88e5;
+}
+
 .input-bar button {
-  margin-left: 8px;
-  padding: 10px 16px;
-  background-color: #4f46e5;
-  color: #fff;
+  padding: 0.6rem 1rem;
   border: none;
   border-radius: 6px;
+  background-color: #1e88e5;
+  color: #fff;
   cursor: pointer;
-  transition: background 0.2s ease;
+  font-size: 1rem;
+  transition: background 0.3s;
 }
 
 .input-bar button:hover {
-  background-color: #4338ca;
+  background-color: #1565c0;
 }
 
-/* Chat actions */
+/* Chat Actions */
 .chat-actions {
-  padding: 10px;
-  border-top: 1px solid #ddd;
-  display: flex;
-  justify-content: flex-end;
+  margin-top: 0.5rem;
+  text-align: right;
 }
 
 .chat-actions button {
-  padding: 8px 16px;
-  border: none;
-  background-color: #ef4444;
-  color: #fff;
+  padding: 0.5rem 1rem;
   border-radius: 6px;
+  border: none;
+  background-color: #ff7043;
+  color: #fff;
   cursor: pointer;
-  transition: background 0.2s ease;
+  transition: background 0.3s;
 }
 
 .chat-actions button:hover {
-  background-color: #dc2626;
+  background-color: #f4511e;
 }
 
-/* ===== Rating Modal ===== */
+/* Feedback Buttons */
+.feedback-buttons {
+  margin-top: 0.5rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.5rem;
+}
+
+.feedback-buttons .stars {
+  display: flex;
+  gap: 0.3rem;
+  cursor: pointer;
+}
+
+.feedback-buttons .stars .star {
+  font-size: 1.5rem;
+  transition: transform 0.2s, color 0.2s;
+  color: #ccc; /* default gray */
+}
+
+.feedback-buttons .stars .star.selected {
+  color: gold; /* highlighted star */
+  transform: scale(1.2);
+}
+
+.feedback-buttons .reaction {
+   border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.feedback-buttons .reaction button {
+  border: 1px solid #ccc;
+  border-radius: 6px;
+  background-color: #fff;
+  padding: 0.3rem 0.6rem;
+  cursor: pointer;
+  font-size: 1rem;
+}
+
+.feedback-buttons .reaction button.active {
+  background-color: #1e88e5;
+  color: #fff;
+  border-color: #1e88e5;
+}
+
+.feedback-buttons button[type="button"] {
+  padding: 0.5rem 1rem;
+  border-radius: 6px;
+  border: none;
+  background-color: #43a047;
+  color: #fff;
+  cursor: pointer;
+  align-self: flex-start;
+  transition: background 0.3s;
+}
+
+.feedback-buttons button[type="button"]:hover {
+  background-color: #2e7d32;
+}
+
+/* Modal */
 .modal-overlay {
   position: fixed;
   top: 0;
   left: 0;
   width: 100%;
   height: 100%;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.5);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   z-index: 1000;
 }
 
 .modal-content {
   background-color: #fff;
-  padding: 24px;
-  border-radius: 12px;
+  padding: 1.5rem;
+  border-radius: 8px;
   width: 90%;
   max-width: 400px;
+}
+
+.modal-content h3 {
+  margin-bottom: 1rem;
   text-align: center;
-  position: relative;
 }
 
-/* Stars */
-.stars {
-  display: flex;
-  justify-content: center;
-  gap: 8px;
-  margin: 16px 0;
-}
-
-.stars .star {
-  font-size: 2.2rem;
-  cursor: pointer;
-  color: #ccc;
-  transition: color 0.2s ease;
-  user-select: none;
-}
-
-.stars .star.selected,
-.stars .star:hover,
-.stars .star:hover ~ .star {
-  color: #ffcc00;
-}
-
-/* Reaction buttons */
-.reaction {
-  display: flex;
-  justify-content: center;
-  gap: 16px;
-  margin-bottom: 16px;
-}
-
-.reaction button {
-  font-size: 1.5rem;
-  cursor: pointer;
-  border: none;
-  background: none;
-  transition: transform 0.2s ease;
-}
-
-.reaction button.active,
-.reaction button:hover {
-  transform: scale(1.2);
-}
-
-/* Comment box */
-textarea {
+.modal-content textarea {
   width: 100%;
-  padding: 10px;
-  border-radius: 8px;
-  border: 1px solid #ccc;
-  resize: none;
-  font-family: inherit;
-  font-size: 1rem;
-  margin-bottom: 16px;
-}
-
-/* Modal actions */
-.modal-actions {
-  display: flex;
-  justify-content: flex-end;
-  gap: 12px;
-}
-
-.modal-actions button {
-  padding: 8px 16px;
+  padding: 0.6rem 0.8rem;
   border-radius: 6px;
+  border: 1px solid #ccc;
+  margin-bottom: 1rem;
+  resize: vertical;
+}
+
+.modal-content .modal-actions {
+  display: flex;
+  justify-content: space-between;
+  gap: 0.5rem;
+}
+
+.modal-content .modal-actions button {
+  flex: 1;
+  padding: 0.6rem 0.8rem;
   border: none;
+  border-radius: 6px;
   cursor: pointer;
-  font-weight: 500;
 }
 
-.modal-actions button:first-child {
-  background-color: #4f46e5;
+.modal-content .modal-actions button:first-child {
+  background-color: #1e88e5;
   color: #fff;
 }
 
-.modal-actions button:first-child:hover {
-  background-color: #4338ca;
-}
-
-.modal-actions button:last-child {
-  background-color: #ef4444;
+.modal-content .modal-actions button:last-child {
+  background-color: #f44336;
   color: #fff;
 }
 
-.modal-actions button:last-child:hover {
-  background-color: #dc2626;
-}
-
-/* ===== Responsive ===== */
+/* Responsive Media Queries */
 @media (max-width: 768px) {
   .chat-page {
-    border-radius: 0;
-    height: 100vh;
+    padding: 0.5rem;
+  }
+
+  .input-bar input,
+  .input-bar button {
+    font-size: 0.9rem;
+    padding: 0.5rem;
+  }
+
+  .feedback-buttons .stars .star {
+    font-size: 1rem;
   }
 
   .modal-content {
-    width: 95%;
+    padding: 1rem;
+  }
+
+  .modal-content textarea {
+    font-size: 0.9rem;
+  }
+}
+
+@media (max-width: 480px) {
+  .chat-page {
+    padding: 0.3rem;
+  }
+
+  .topbar h1 {
+    font-size: 1.2rem;
+  }
+
+  .input-bar {
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .chat-actions {
+    text-align: center;
+  }
+
+  .feedback-buttons {
+    gap: 0.3rem;
+  }
+
+  .feedback-buttons .reaction {
+    justify-content: space-around;
   }
 }
