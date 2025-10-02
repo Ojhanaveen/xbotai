@@ -25,12 +25,12 @@ export const ChatProvider = ({ children }) => {
     localStorage.setItem("currentChat", JSON.stringify(currentChat));
   }, [currentChat]);
 
-  // ✅ Add a message to current chat
+  // Add a message to current chat
   const addMessage = (sender, text) => {
     setCurrentChat((prev) => [...prev, { sender, text }]);
   };
 
-  // ✅ Save conversation with feedback (if provided)
+  // Save conversation with optional feedback
   const saveConversation = (feedback) => {
     if (currentChat.length === 0) return;
 
@@ -39,24 +39,35 @@ export const ChatProvider = ({ children }) => {
       chat: [...currentChat],
       feedback,
     };
-    setSavedChats((prev) => [...prev, chatWithFeedback]);
+
+    // Update savedChats and persist immediately
+    setSavedChats((prev) => {
+      const updated = [...prev, chatWithFeedback];
+      localStorage.setItem("savedChats", JSON.stringify(updated));
+      return updated;
+    });
+
     setCurrentChat([]); // clear ongoing chat after saving
   };
 
-  // ✅ Start a new chat (save old one before clearing)
+  // Start a new chat (save current one if not empty)
   const newChat = () => {
     if (currentChat.length > 0) {
       const chatWithId = { id: Date.now(), chat: [...currentChat] };
-      setSavedChats((prev) => [...prev, chatWithId]);
+      setSavedChats((prev) => {
+        const updated = [...prev, chatWithId];
+        localStorage.setItem("savedChats", JSON.stringify(updated));
+        return updated;
+      });
     }
-    setCurrentChat([]);
+    setCurrentChat([]); // clear current chat
   };
 
   return (
     <ChatContext.Provider
       value={{
         currentChat,
-        addMessage,     // ✅ new function for sending messages
+        addMessage,
         setCurrentChat,
         savedChats,
         saveConversation,
