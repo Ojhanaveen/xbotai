@@ -1,6 +1,6 @@
 import { useContext } from "react";
-import { ChatContext } from "../context/ChatContext";
 import { useNavigate } from "react-router-dom";
+import { ChatContext } from "../context/ChatContext";
 
 export default function HistoryPage() {
   const { savedChats, newChat } = useContext(ChatContext);
@@ -13,26 +13,7 @@ export default function HistoryPage() {
 
   return (
     <div className="chat-page">
-      <header className="topbar">
-        <h1>Bot AI</h1>
-        <div style={{ marginLeft: "auto" }}>
-          <button
-            type="button"
-            onClick={handleNewChat}
-            style={{
-              padding: "0.4rem 0.8rem",
-              borderRadius: "6px",
-              border: "none",
-              backgroundColor: "#1e88e5",
-              color: "#fff",
-              cursor: "pointer",
-            }}
-          >
-            New Chat
-          </button>
-        </div>
-      </header>
-
+      {/* Header removed from here to prevent duplication */}
       {savedChats.length === 0 ? (
         <p style={{ padding: "1rem" }}>No saved chats yet.</p>
       ) : (
@@ -58,18 +39,31 @@ export default function HistoryPage() {
                   ))}
                 </div>
                 <div className="reaction">
-                  <button className={item.feedback.reaction === "like" ? "active" : ""}>
-                    👍
-                  </button>
-                  <button className={item.feedback.reaction === "dislike" ? "active" : ""}>
-                    👎
-                  </button>
+                  <button className={item.feedback.reaction === "like" ? "active" : ""}>👍</button>
+                  <button className={item.feedback.reaction === "dislike" ? "active" : ""}>👎</button>
                 </div>
               </div>
             )}
           </div>
         ))
       )}
+
+      <div style={{ marginTop: "1rem" }}>
+        <button
+          type="button"
+          onClick={handleNewChat}
+          style={{
+            padding: "0.4rem 0.8rem",
+            borderRadius: "6px",
+            border: "none",
+            backgroundColor: "#1e88e5",
+            color: "#fff",
+            cursor: "pointer",
+          }}
+        >
+          New Chat
+        </button>
+      </div>
     </div>
   );
 }

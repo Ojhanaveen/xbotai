@@ -19,9 +19,7 @@ export default function ChatPage() {
       (item) => item.question.toLowerCase() === input.trim().toLowerCase()
     );
 
-    const aiResponse = matched
-      ? matched.response
-      : "Sorry, Did not understand your query!";
+    const aiResponse = matched ? matched.response : "Sorry, Did not understand your query!";
 
     setTimeout(() => {
       addMessage("ai", aiResponse);
@@ -31,7 +29,6 @@ export default function ChatPage() {
   };
 
   const handleEndChat = () => {
-    saveConversation();
     setShowModal(true);
   };
 
@@ -41,10 +38,7 @@ export default function ChatPage() {
 
   return (
     <div className="chat-page">
-      <header className="topbar">
-        <h1>Bot AI</h1>
-      </header>
-
+      {/* Header removed from here to prevent duplication */}
       <div className="chat-window">
         {currentChat.map((msg, idx) => (
           <Message key={idx} sender={msg.sender} text={msg.text} />

@@ -6,7 +6,7 @@ export const ChatProvider = ({ children }) => {
   const [currentChat, setCurrentChat] = useState([]);
   const [savedChats, setSavedChats] = useState([]);
 
-  // Load saved chats and ongoing chat from localStorage
+  // Load saved chats and ongoing chat from localStorage on mount
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("savedChats")) || [];
     setSavedChats(saved);
@@ -15,17 +15,17 @@ export const ChatProvider = ({ children }) => {
     setCurrentChat(ongoing);
   }, []);
 
-  // Persist savedChats
+  // Persist savedChats to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("savedChats", JSON.stringify(savedChats));
   }, [savedChats]);
 
-  // Persist currentChat
+  // Persist currentChat to localStorage whenever it changes
   useEffect(() => {
     localStorage.setItem("currentChat", JSON.stringify(currentChat));
   }, [currentChat]);
 
-  // Add message to current chat
+  // Add a message to current chat
   const addMessage = (sender, text) => {
     setCurrentChat((prev) => [...prev, { sender, text }]);
   };
@@ -40,10 +40,10 @@ export const ChatProvider = ({ children }) => {
       feedback,
     };
     setSavedChats((prev) => [...prev, chatWithFeedback]);
-    setCurrentChat([]); // Clear ongoing chat
+    setCurrentChat([]);
   };
 
-  // Start new chat and save current chat if exists
+  // Start a new chat (save current if exists)
   const newChat = () => {
     if (currentChat.length > 0) {
       const chatWithId = { id: Date.now(), chat: [...currentChat] };
