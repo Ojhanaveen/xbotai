@@ -3,9 +3,11 @@ import { ChatContext } from "../context/ChatContext";
 import Message from "../components/Message";
 import RatingModal from "../components/RatingModal";
 import sampleData from "../data/sampleData.json";
+import {Link} from "react-router-dom";
 
 export default function ChatPage() {
-  const { currentChat, addMessage, saveConversation, newChat } = useContext(ChatContext);
+  const { currentChat, addMessage, saveConversation, newChat } =
+    useContext(ChatContext);
   const [input, setInput] = useState("");
   const [showModal, setShowModal] = useState(false);
   const chatEndRef = useRef(null);
@@ -19,7 +21,9 @@ export default function ChatPage() {
       (item) => item.question.toLowerCase() === input.trim().toLowerCase()
     );
 
-    const aiResponse = matched ? matched.response : "Sorry, Did not understand your query!";
+    const aiResponse = matched
+      ? matched.response
+      : "Sorry, Did not understand your query!";
 
     setTimeout(() => {
       addMessage("ai", aiResponse);
@@ -29,6 +33,7 @@ export default function ChatPage() {
   };
 
   const handleEndChat = () => {
+    saveConversation();
     setShowModal(true);
   };
 
@@ -66,9 +71,11 @@ export default function ChatPage() {
         <button type="button" onClick={handleEndChat}>
           Save & End Chat
         </button>
-        <button type="button" onClick={newChat}>
-          New Chat
-        </button>
+        <div style={{ display: "inline-block" }}>
+          <Link to="/" onClick={newChat}>
+            New Chat
+          </Link>
+        </div>
       </div>
 
       {showModal && <RatingModal onClose={() => setShowModal(false)} />}
