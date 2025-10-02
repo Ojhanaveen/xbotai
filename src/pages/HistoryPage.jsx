@@ -14,7 +14,7 @@ export default function HistoryPage() {
   return (
     <div className="chat-page">
       <header className="topbar">
-        <h1>Bot AI</h1>
+        {/* <h1>Bot AI</h1> */}
         <div style={{ marginLeft: "auto" }}>
           <button
             type="button"

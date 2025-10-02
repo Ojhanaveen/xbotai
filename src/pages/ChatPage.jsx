@@ -50,9 +50,9 @@ export default function ChatPage() {
 
   return (
     <div className="chat-page">
-      <header className="topbar" id="bot-ai-header">
+      {/* <header className="topbar" id="bot-ai-header">
         <h1>Bot AI</h1>
-      </header>
+      </header> */}
 
       <div className="chat-window">
         {currentChat.map((msg, idx) => (
@@ -81,15 +81,17 @@ export default function ChatPage() {
         <button type="button" onClick={handleEndChat}>
           Save & End Chat
         </button>
-        <a
-          href="#"
-          onClick={(e) => {
-            e.preventDefault();
-            newChat();
-          }}
-        >
-          New Chat
-        </a>
+        <div style={{ textAlign: "right", margin: "1rem 0" }}>
+          <a
+            href="/"
+            onClick={(e) => {
+              e.preventDefault();
+              newChat();
+            }}
+          >
+            New Chat
+          </a>
+        </div>
       </div>
 
       {showModal && (
