@@ -5,35 +5,42 @@ import RatingModal from "../components/RatingModal";
 import sampleData from "../data/sampleData.json";
 
 export default function ChatPage() {
-  const { currentChat, setCurrentChat, saveConversation, newChat } = useContext(ChatContext);
+  const { currentChat, addMessage, saveConversation, newChat } = useContext(ChatContext);
   const [input, setInput] = useState("");
   const [showModal, setShowModal] = useState(false);
   const chatEndRef = useRef(null);
 
+  // ✅ Send user + AI response
   const handleSend = () => {
     if (!input.trim()) return;
 
-    const userMsg = { sender: "user", text: input };
-    setCurrentChat((prev) => [...prev, userMsg]);
+    // User message
+    addMessage("user", input);
 
+    // Bot response
     const matched = sampleData.find(
       (item) => item.question.toLowerCase() === input.trim().toLowerCase()
     );
-
     const aiResponse = matched
       ? matched.response
       : "Sorry, Did not understand your query!";
 
-    const aiMsg = { sender: "ai", text: aiResponse };
     setTimeout(() => {
-      setCurrentChat((prev) => [...prev, aiMsg]);
+      addMessage("ai", aiResponse);
     }, 800);
 
     setInput("");
   };
 
+  // ✅ Open modal for feedback
   const handleEndChat = () => {
     setShowModal(true);
+  };
+
+  // ✅ When feedback is submitted from modal
+  const handleSaveFeedback = (feedback) => {
+    saveConversation(feedback); // save chat + feedback into localStorage
+    setShowModal(false);        // close modal
   };
 
   useEffect(() => {
@@ -78,7 +85,12 @@ export default function ChatPage() {
         </button>
       </div>
 
-      {showModal && <RatingModal onClose={() => setShowModal(false)} />}
+      {showModal && (
+        <RatingModal
+          onClose={() => setShowModal(false)}
+          onSave={handleSaveFeedback}   // ✅ Pass callback
+        />
+      )}
     </div>
   );
 }
