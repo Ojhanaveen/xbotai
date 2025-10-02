@@ -6,7 +6,7 @@ export const ChatProvider = ({ children }) => {
   const [currentChat, setCurrentChat] = useState([]);
   const [savedChats, setSavedChats] = useState([]);
 
-  // Load saved chats and ongoing chat from localStorage on mount
+  // Load saved chats and ongoing chat from localStorage
   useEffect(() => {
     const saved = JSON.parse(localStorage.getItem("savedChats")) || [];
     setSavedChats(saved);
@@ -15,17 +15,17 @@ export const ChatProvider = ({ children }) => {
     setCurrentChat(ongoing);
   }, []);
 
-  // Persist savedChats to localStorage whenever it changes
+  // Persist savedChats
   useEffect(() => {
     localStorage.setItem("savedChats", JSON.stringify(savedChats));
   }, [savedChats]);
 
-  // Persist currentChat to localStorage whenever it changes
+  // Persist currentChat
   useEffect(() => {
     localStorage.setItem("currentChat", JSON.stringify(currentChat));
   }, [currentChat]);
 
-  // Add a message to current chat
+  // Add message to current chat
   const addMessage = (sender, text) => {
     setCurrentChat((prev) => [...prev, { sender, text }]);
   };
@@ -39,28 +39,17 @@ export const ChatProvider = ({ children }) => {
       chat: [...currentChat],
       feedback,
     };
-
-    // Update savedChats and persist immediately
-    setSavedChats((prev) => {
-      const updated = [...prev, chatWithFeedback];
-      localStorage.setItem("savedChats", JSON.stringify(updated));
-      return updated;
-    });
-
-    setCurrentChat([]); // clear ongoing chat after saving
+    setSavedChats((prev) => [...prev, chatWithFeedback]);
+    setCurrentChat([]); // Clear ongoing chat
   };
 
-  // Start a new chat (save current one if not empty)
+  // Start new chat and save current chat if exists
   const newChat = () => {
     if (currentChat.length > 0) {
       const chatWithId = { id: Date.now(), chat: [...currentChat] };
-      setSavedChats((prev) => {
-        const updated = [...prev, chatWithId];
-        localStorage.setItem("savedChats", JSON.stringify(updated));
-        return updated;
-      });
+      setSavedChats((prev) => [...prev, chatWithId]);
     }
-    setCurrentChat([]); // clear current chat
+    setCurrentChat([]);
   };
 
   return (

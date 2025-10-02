@@ -5,23 +5,20 @@ import RatingModal from "../components/RatingModal";
 import sampleData from "../data/sampleData.json";
 
 export default function ChatPage() {
-  const { currentChat, addMessage, saveConversation, newChat } =
-    useContext(ChatContext);
+  const { currentChat, addMessage, saveConversation, newChat } = useContext(ChatContext);
   const [input, setInput] = useState("");
   const [showModal, setShowModal] = useState(false);
   const chatEndRef = useRef(null);
 
-  // ✅ Send user + AI response
   const handleSend = () => {
     if (!input.trim()) return;
 
-    // User message
     addMessage("user", input);
 
-    // Bot response
     const matched = sampleData.find(
       (item) => item.question.toLowerCase() === input.trim().toLowerCase()
     );
+
     const aiResponse = matched
       ? matched.response
       : "Sorry, Did not understand your query!";
@@ -33,15 +30,9 @@ export default function ChatPage() {
     setInput("");
   };
 
-  // ✅ Open modal for feedback
   const handleEndChat = () => {
+    saveConversation();
     setShowModal(true);
-  };
-
-  // ✅ When feedback is submitted from modal
-  const handleSaveFeedback = (feedback) => {
-    saveConversation(feedback); // save chat + feedback into localStorage
-    setShowModal(false); // close modal
   };
 
   useEffect(() => {
@@ -50,9 +41,9 @@ export default function ChatPage() {
 
   return (
     <div className="chat-page">
-      {/* <header className="topbar" id="bot-ai-header">
+      <header className="topbar">
         <h1>Bot AI</h1>
-      </header> */}
+      </header>
 
       <div className="chat-window">
         {currentChat.map((msg, idx) => (
@@ -81,25 +72,12 @@ export default function ChatPage() {
         <button type="button" onClick={handleEndChat}>
           Save & End Chat
         </button>
-        <div style={{ textAlign: "right", margin: "1rem 0" }}>
-          <a
-            href="/"
-            onClick={(e) => {
-              e.preventDefault();
-              newChat();
-            }}
-          >
-            New Chat
-          </a>
-        </div>
+        <button type="button" onClick={newChat}>
+          New Chat
+        </button>
       </div>
 
-      {showModal && (
-        <RatingModal
-          onClose={() => setShowModal(false)}
-          onSave={handleSaveFeedback} // ✅ Pass callback
-        />
-      )}
+      {showModal && <RatingModal onClose={() => setShowModal(false)} />}
     </div>
   );
 }
